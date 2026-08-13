@@ -55,10 +55,13 @@ const els = {
     backBtn: document.getElementById('back-btn'),
     chatList: document.getElementById('chat-list'),
     chatView: document.getElementById('chat-view'),
+    searchInput: document.getElementById('search-input'),
+    refreshBtn: document.getElementById('refresh-btn'),
+    archiveBtn: document.getElementById('archive-btn'),
 };
 
 function avatarColor(name) {
-    const colors = ['#E17076', '#FAA774', '#A695E7', '#7BC862', '#6EC9DC', '#E285C2', '#5A9FE7'];
+    const colors = ['#E17076', '#FAA774', '#A695E7', '#7BC862', '#6EC9DC', '#E285C2', '#5A9FE7', '#9575CD'];
     let hash = 0;
     for (const c of name) hash += c.charCodeAt(0);
     return colors[hash % colors.length];
@@ -78,6 +81,15 @@ function shortDate(dateStr) {
 
 function renderChats(chats) {
     chatsCache = chats;
+    filterAndRenderChats();
+}
+
+function filterAndRenderChats() {
+    const query = els.searchInput.value.toLowerCase().trim();
+    const chats = query
+        ? chatsCache.filter(c => c.chat_title.toLowerCase().includes(query))
+        : chatsCache;
+
     els.chats.innerHTML = '';
     if (!chats.length) {
         els.chats.innerHTML = '<div class="placeholder">Нет сообщений</div>';
@@ -87,12 +99,13 @@ function renderChats(chats) {
         const item = document.createElement('div');
         item.className = 'chat-item' + (chat.chat_id === currentChatId ? ' active' : '');
         item.dataset.id = chat.chat_id;
+        const date = shortDate(chat.last_message_date) || chat.last_message_date || '';
         item.innerHTML = `
             <div class="avatar" style="background:${avatarColor(chat.chat_title)}">${initials(chat.chat_title)}</div>
             <div class="chat-info">
                 <div class="chat-row">
                     <span class="chat-name">${escapeHtml(chat.chat_title)}</span>
-                    <span class="chat-date">${shortDate(chat.last_message_date)}</span>
+                    <span class="chat-date">${escapeHtml(date)}</span>
                 </div>
                 <div class="chat-preview">${escapeHtml(chat.last_message_text || '(пусто)')}</div>
             </div>
@@ -162,14 +175,29 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
-async function loadChats() {
+async function loadChats(showSpin = false) {
+    if (showSpin && els.refreshBtn) {
+        els.refreshBtn.classList.add('spinning');
+    }
     try {
         const chats = await API.request('/api/chats');
         renderChats(chats);
     } catch (e) {
         els.chats.innerHTML = `<div class="placeholder">Ошибка: ${escapeHtml(e.message)}</div>`;
+    } finally {
+        if (showSpin && els.refreshBtn) {
+            setTimeout(() => els.refreshBtn.classList.remove('spinning'), 500);
+        }
     }
 }
+
+els.searchInput.addEventListener('input', filterAndRenderChats);
+
+els.refreshBtn.addEventListener('click', () => loadChats(true));
+
+els.archiveBtn.addEventListener('click', () => {
+    alert('Архив пока недоступен');
+});
 
 els.menuBtn.addEventListener('click', (e) => {
     e.stopPropagation();
