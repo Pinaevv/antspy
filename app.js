@@ -2,7 +2,7 @@
 // ЗАМЕНИ ЭТОТ URL на адрес твоего Cloudflare Worker
 // Пример: https://antbot-proxy.ваш-аккаунт.workers.dev
 // ═══════════════════════════════════════════════════════════════
-const WORKER_URL = 'https://ЗАМЕНИ.МЕНЯ.workers.dev';
+const WORKER_URL = 'https://antspy-proxy.igorpinaev02.workers.dev';
 
 const tg = window.Telegram.WebApp;
 tg.expand();
