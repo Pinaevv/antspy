@@ -11,10 +11,30 @@
     <div id="app">
         <aside id="chat-list" class="panel">
             <div class="chat-list-header">
-                <span class="title">Диалоги</span>
+                <div class="header-title-row">
+                    <h1 class="title">Диалоги</h1>
+                    <div class="status">
+                        <span class="status-dot"></span>
+                        <span class="status-text">Обновлено</span>
+                    </div>
+                    <button id="refresh-btn" class="refresh-btn" title="Обновить">↻</button>
+                </div>
             </div>
+
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="search-input" placeholder="Поиск">
+            </div>
+
+            <div class="archive-item" id="archive-btn">
+                <div class="archive-icon">🗄</div>
+                <span class="archive-text">Архив</span>
+                <span class="archive-arrow">›</span>
+            </div>
+
             <div id="chats" class="chats"></div>
         </aside>
+
         <main id="chat-view" class="panel">
             <div id="chat-header" class="chat-header">
                 <button id="back-btn" class="icon-btn">←</button>
