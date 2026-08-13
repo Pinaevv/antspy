@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>ant-bot</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <aside id="chat-list" class="panel">
+            <div class="chat-list-header">
+                <span class="title">Диалоги</span>
+            </div>
+            <div id="chats" class="chats"></div>
+        </aside>
+        <main id="chat-view" class="panel">
+            <div id="chat-header" class="chat-header">
+                <button id="back-btn" class="icon-btn">←</button>
+                <span id="chat-title" class="chat-title">ant-bot</span>
+                <button id="menu-btn" class="icon-btn">⋮</button>
+                <div id="dropdown" class="dropdown hidden">
+                    <div class="dropdown-item" data-fmt="html">Экспорт HTML</div>
+                    <div class="dropdown-item" data-fmt="json">Экспорт JSON</div>
+                    <div class="dropdown-item" data-fmt="txt">Экспорт TXT</div>
+                </div>
+            </div>
+            <div id="messages" class="messages">
+                <div class="placeholder">Выберите чат</div>
+            </div>
+        </main>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
